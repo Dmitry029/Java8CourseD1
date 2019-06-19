@@ -1,4 +1,4 @@
-package beans;
+package streamAndlambda.Task1;
 
 public class Person {
     private String name;
