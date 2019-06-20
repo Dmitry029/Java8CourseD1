@@ -1,6 +1,5 @@
 package streamAndlambda.Task2;
 
-import java.awt.*;
 import java.util.List;
 
 public class Author {

@@ -1,9 +1,9 @@
 package streamAndlambda.Task2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -37,17 +37,36 @@ public class Main {
         Book[] booksInLib = {book1, book2, book3, book4, book5, book6, book7};
         Author[] authorsINLib = {author1, author2, author3};
 
-        boolean answer = Arrays.stream(booksInLib).map(Book::getNumberOfPages).anyMatch(pages -> pages > 200);
-        if(answer){
+        boolean answer = Arrays.stream(booksInLib).anyMatch(book -> book.getNumberOfPages() > 200);
+        if (answer) {
             System.out.println("There is book that has more then 200 pages.");
         } else {
             System.out.println("There is not book that has more then 200 pages.");
         }
 
-        Book maxPagesbook = Arrays.stream(booksInLib).max(Comparator.comparing(Book::getNumberOfPages)).get();
-        System.out.println(maxPagesbook);
-        Book minPagesbook = Arrays.stream(booksInLib).min(Comparator.comparing(Book::getNumberOfPages)).get();
-        System.out.println(minPagesbook);
+        System.out.println("*** book with max number of pages ***  ");
+        System.out.println(Arrays.stream(booksInLib).max(Comparator.comparing(Book::getNumberOfPages)).get());
+        System.out.println("*** books with min number of pages ***  ");
+        System.out.println(Arrays.stream(booksInLib).min(Comparator.comparing(Book::getNumberOfPages)).get());
 
+        System.out.println("*** books with only single author ***  ");
+        Arrays.stream(booksInLib)
+                .filter(b -> b.getAuthors().size() == 1)
+                .forEach(System.out::println);
+
+        System.out.println("*** sort the books by number of pages ***");
+        Arrays.stream(booksInLib).sorted(Comparator.comparing(Book::getNumberOfPages)).forEach(System.out::println);
+
+        System.out.println("*** sort the books by title ***");
+        Arrays.stream(booksInLib)
+                .peek(b -> System.out.println(b.getTitle()))
+                .sorted(Comparator.comparing(Book::getTitle))
+                .forEach(System.out::println);
+
+        System.out.println("*** list of all titles ***");
+        Arrays.stream(booksInLib).forEach(book -> System.out.println(book.getTitle()));
+
+        System.out.println("*** distinct list of all authors ***");
+        Arrays.stream(booksInLib).map(Book::getAuthors).distinct().forEach(System.out::println);
     }
 }
